@@ -58,5 +58,19 @@ table=table.replace('----',np.nan)
 table=table.replace(0.0,np.nan)
 #foce the datatype for the values to floats, they are currently strings.
 table[['b','v','r','i','xb','xv','xr','xi','cb','cv','cr','ci']]=table[['b','v','r','i','xb','xv','xr','xi','cb','cv','cr','ci']].astype(float)
+#the extinction coef for V was .14 before 200905 and .144 after
+def excoefV(date):
+    if date < 90500:
+        return .14
+    else:
+        return .144
+table['excoefV']=table['date'].apply(lambda x: excoefV(x))
+#likewise the extinction coef for I was .066 before 200905 and .056 after
+def excoefI(date):
+    if date < 90500:
+        return .066
+    else:
+        return .056
+table['excoefI']=table['date'].apply(lambda x: excoefI(x))
 table.to_pickle('suzpts')
 table.to_csv('suzpts.csv')

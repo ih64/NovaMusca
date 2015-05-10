@@ -19,11 +19,11 @@ with open('weirdos.txt','w') as f:
 		print('does this look weird or OK?')
 		response=input('press 1 for weird, 2 to view next image, or 3 to quit')
 		if response==1:
-			f.write(image+' ')
+			f.write(image+'\n')
 		elif response==2:
 			pass
 		elif response==3:
 			break
 		else:
 			print('your response was not recognized. Please try again')
-			response=input('press w for weird, n to view next image, or q to quit')
+			response=input('press 1 for weird, 2 to view next image, or 3 to quit')

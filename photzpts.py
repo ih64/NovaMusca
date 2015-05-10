@@ -5,7 +5,7 @@ import pandas as pd
 #get a listing of the files suzane made that have the photometric zero points
 #i saved them locally under /home/ih64/Desktop/PhotResults
 #the ones I computed are there too, but they are put together in the ipython notebook
-suzpts=glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.200[8-9]_*')+glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.201[0-1]_*') + glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.2012_0[0-6]')
+suzpts=glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.200[6-9]_*')+glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.201[0-1]_*') + glob.glob('/home/ih64/Desktop/PhotResults/RESULTS.2012_0[0-6]')
 
 rowdict={'date':[], 'star':[], 'b':[], 'v':[],'r':[],'i':[],
 	'cb':[],'cv':[],'cr':[],'ci':[],
@@ -51,7 +51,12 @@ table['date']=table['date'].values.flatten().astype(int)
 table=table.drop(table[table['date']==110921].index)
 #suzane filled in the string 'na' if the data was not determined. change these to np NaNs in our dataframe
 table=table.replace('na',np.nan)
+#sometimes the string '---' was used if the data were not determined, swap these out for nans too
+table=table.replace('---',np.nan)
+table=table.replace('----',np.nan)
+#finally, sometimes 0.0 were used if the data were not determined
 table=table.replace(0.0,np.nan)
 #foce the datatype for the values to floats, they are currently strings.
 table[['b','v','r','i','xb','xv','xr','xi','cb','cv','cr','ci']]=table[['b','v','r','i','xb','xv','xr','xi','cb','cv','cr','ci']].astype(float)
 table.to_pickle('suzpts')
+table.to_csv('suzpts.csv')
